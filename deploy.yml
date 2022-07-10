@@ -1,7 +1,6 @@
-"# test-deploy-cpanel" 
 on:
   push:
-    branches: [ ftp ]
+    branches: [ main ]
 
 name: 🚀 Deploy website on push
 jobs:
@@ -19,3 +18,5 @@ jobs:
         username: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PASS }}
         server-dir: /home/sakodeko/public_html/
+      
+
