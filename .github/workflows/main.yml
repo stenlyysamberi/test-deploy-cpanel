@@ -17,6 +17,11 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PASS }}
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/node_modules/**
+          fileToExclude.txt
         # protocol: ftp
         # port: ${{ secrets.FTP_PORT }}
         # server-dir: /home/sakodeko/public_html/deploy/
