@@ -17,5 +17,7 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PASS }}
+        protocol: ftp
+        port: ${{ secrets.FTP_PORT }}
         server-dir: /home/sakodeko/public_html/
       
