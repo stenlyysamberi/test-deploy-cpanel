@@ -1,29 +1,55 @@
+# on:
+#   push:
+#     branches: [ main ]
+
+# name: 🚀 Deploy website on push
+# jobs:
+#   web-deploy:
+#     name: 🎉 Deploy
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: 🚚 Get latest code
+#       uses: actions/checkout@v2
+    
+#     - name: 📂 Sync files
+#       uses: SamKirkland/FTP-Deploy-Action@4.3.0
+#       with:
+#         server: ${{ secrets.FTP_SERVER }}
+#         username: ${{ secrets.FTP_USER }}
+#         password: ${{ secrets.FTP_PASS }}
+#         # server-dir: /public_html/admin_sacode/
+#         exclude: |
+#           **/.git*
+#           **/.git*/**
+#           **/node_modules/**
+#           fileToExclude.txt
+#         # protocol: ftp
+#         # port: ${{ secrets.FTP_PORT }}
+#         # server-dir: /home/sakodeko/public_html/deploy/
+      
 on:
   push:
     branches: [ main ]
-
 name: 🚀 Deploy website on push
 jobs:
   web-deploy:
-    name: 🎉 Deploy
+    name: 🎉 Auto Deploy
     runs-on: ubuntu-latest
     steps:
     - name: 🚚 Get latest code
-      uses: actions/checkout@v2
-    
+      uses: actions/checkout@v2.3.2
+
     - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      uses: burnett01/rsync-deployments@4.1
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USER }}
-        password: ${{ secrets.FTP_PASS }}
-        # server-dir: /public_html/admin_sacode/
+        switches: -avzr --delete --exclude=".git" --exclude=".github"
+        path: /
+        remote_path: /home/sakodeko/donasi
+        remote_host: sacode.web.id
+        remote_user: sakodeko
+        remote_key: ${{ secrets.DEPLOY_KEY }}
         exclude: |
           **/.git*
           **/.git*/**
           **/node_modules/**
           fileToExclude.txt
-        # protocol: ftp
-        # port: ${{ secrets.FTP_PORT }}
-        # server-dir: /home/sakodeko/public_html/deploy/
-      
