@@ -27,19 +27,24 @@
 #         # port: ${{ secrets.FTP_PORT }}
 #         # server-dir: /home/sakodeko/public_html/deploy/
       
+on:
+  push:
+    branches: [ main ]
+name: 🚀 Deploy website on push
 jobs:
-  deploy:
+  web-deploy:
+    name: 🎉 Auto Deploy
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: rsync deployments
-      uses: burnett01/rsync-deployments@5.2
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2.3.2
+
+    - name: 📂 Sync files
+      uses: burnett01/rsync-deployments@4.1
       with:
-        switches: -avzr --delete --exclude="" --include="" --filter=""
+        switches: -avzr --delete --exclude=".git" --exclude=".github"
         path: /
-        remote_path: /home/sakodeko/public_html/donasi/
-        remote_host: sacode.web.id
-        remote_port: 22
-        remote_user: sakodeko
+        remote_path: ${{ secrets.DEPLOY_PATH }}
+        remote_host: ${{ secrets.DEPLOY_HOST }}
+        remote_user: ${{ secrets.DEPLOY_USER }}
         remote_key: ${{ secrets.DEPLOY_KEY }}
-        
